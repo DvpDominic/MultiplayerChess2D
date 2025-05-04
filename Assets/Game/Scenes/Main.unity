@@ -180,7 +180,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3264544216878683164, guid: 84473bbe41c8dbb45b9779916f227248, type: 3}
+  m_Sprite: {fileID: -8567186622430992613, guid: 4604a94f8d9cff547a2ad9047d9aaf4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -219,6 +219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMaterial: {fileID: 2100000, guid: 05fabc0a296d780408a01ff66d23d817, type: 2}
+  tileSize: 0.64
+  yOffset: 0.2
+  boardCenter: {x: 0, y: 0, z: 0}
 --- !u!1 &1614524467
 GameObject:
   m_ObjectHideFlags: 0

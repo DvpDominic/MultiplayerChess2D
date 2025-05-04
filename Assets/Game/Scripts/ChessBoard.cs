@@ -5,6 +5,9 @@ public class ChessBoard : MonoBehaviour
 {
     [Header("Art")]
     [SerializeField] private Material tileMaterial;
+    [SerializeField] private float tileSize = 1.0f;
+    [SerializeField] private float yOffset = 0.2f;
+    [SerializeField] private Vector3 boardCenter = Vector3.zero;
     
     // Constraints
     private const int TILE_COUNT_X = 8;
@@ -13,9 +16,11 @@ public class ChessBoard : MonoBehaviour
     
     private Camera currentCamera;
     private Vector2Int currentHover;
+    private Vector3 bounds;
+    
     private void Awake()
     {
-        GenerateTiles(1,8,8);
+        GenerateTiles(tileSize,8,8);
     }
 
     private void Update()
@@ -58,6 +63,9 @@ public class ChessBoard : MonoBehaviour
     // Board Generation
     private void GenerateTiles(float tileSize, int tileCountX, int tileCountY)
     {
+        yOffset += transform.position.y;
+        bounds = new Vector3((tileCountX/2) * tileSize,(tileCountX/2) * tileSize,0) + boardCenter;
+        
         tiles = new GameObject[tileCountX, tileCountY];
         for (int x = 0; x < tileCountX; x++)
         {
@@ -78,10 +86,10 @@ public class ChessBoard : MonoBehaviour
         tileObject.AddComponent<MeshRenderer>().material = tileMaterial;
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(x * tileSize, y * tileSize);
-        vertices[1] = new Vector3(x * tileSize, (y+1) * tileSize);
-        vertices[2] = new Vector3((x+1) * tileSize, y * tileSize);
-        vertices[3] = new Vector3((x+1) * tileSize, (y+1) * tileSize);
+        vertices[0] = new Vector3(x * tileSize, y * tileSize) - bounds;
+        vertices[1] = new Vector3(x * tileSize, (y+1) * tileSize) - bounds;
+        vertices[2] = new Vector3((x+1) * tileSize, y * tileSize) - bounds;
+        vertices[3] = new Vector3((x+1) * tileSize, (y+1) * tileSize) - bounds;
 
         int[] tris = new int[]{ 0, 1, 2, 1, 3, 2 };
         
