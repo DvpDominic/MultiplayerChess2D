@@ -26,12 +26,12 @@ public class ChessBoard : MonoBehaviour
             return;
         }
 
-        RaycastHit info;
-        Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Tile")))
+        Vector2 mousePos = currentCamera.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100, LayerMask.GetMask("Tile","Hover"));
+        if (hit.collider != null)
         {
             // Get indexes of the tile hit
-            Vector2Int hitPosition = LookupTileIndex(info.transform.gameObject);
+            Vector2Int hitPosition = LookupTileIndex(hit.transform.gameObject);
 
             if (currentHover == -Vector2Int.one)
             {
