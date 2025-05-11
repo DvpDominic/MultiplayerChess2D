@@ -222,6 +222,27 @@ MonoBehaviour:
   tileSize: 0.64
   yOffset: 0.2
   boardCenter: {x: 0, y: 0, z: 0}
+  prefabs:
+  - {fileID: 3006556321622827669, guid: 1a807409974c8bf4585b70587a9c8fb9, type: 3}
+  - {fileID: 7553797167338755756, guid: a4672411fc7306249860ff9fad8fc3ff, type: 3}
+  - {fileID: 9003677283065886038, guid: ab36e49bd5c8bf84eb9534ea076a3c9b, type: 3}
+  - {fileID: 6935110646498207748, guid: a5c79964576469c47b14861a76d2e06d, type: 3}
+  - {fileID: 4482088142611537740, guid: 2a52de5f12c1962408a5cb9bade93abf, type: 3}
+  - {fileID: 1889398493732604073, guid: 5f075418e22f5d748ac6e11f672c7876, type: 3}
+  whitePieces:
+  - {fileID: 21300000, guid: 753435087bb15d047b7bded133f53e51, type: 3}
+  - {fileID: 21300000, guid: 2da25dc428f7d9541a633ac80877ca2b, type: 3}
+  - {fileID: 21300000, guid: 076c7955ff8073a49b111f887dadcb2c, type: 3}
+  - {fileID: 21300000, guid: 228995179e0e27c498fc53dda6130a39, type: 3}
+  - {fileID: 21300000, guid: a4fc2eaf2968bef45848d82762be5648, type: 3}
+  - {fileID: 21300000, guid: 4d85868557c3488478fae51bf7d2b873, type: 3}
+  blackPieces:
+  - {fileID: 21300000, guid: c968b877ae29ba640abac5993c12a836, type: 3}
+  - {fileID: 21300000, guid: 00530208fbe2f634c9fc2eb8c30d9712, type: 3}
+  - {fileID: 21300000, guid: 6cec71845b8d83c49ac4a781021be0c2, type: 3}
+  - {fileID: 21300000, guid: 7e96a61c57541804da94bfe353d89a98, type: 3}
+  - {fileID: 21300000, guid: 1fa7335cb5ee0f44482f0dad0357c51e, type: 3}
+  - {fileID: 21300000, guid: 62f8314d219a3484b8d6105caaf7423a, type: 3}
 --- !u!1 &1614524467
 GameObject:
   m_ObjectHideFlags: 0

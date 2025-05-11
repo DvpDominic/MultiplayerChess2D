@@ -8,6 +8,12 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private float tileSize = 1.0f;
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
+
+    [Header("Prefabs && Sprites")] 
+    [SerializeField] private GameObject[] prefabs;
+    [SerializeField] private Sprite[] whitePieces;
+    [SerializeField] private Sprite[] blackPieces;
+    [SerializeField] private Sprite[][] pieceSprites; // using jagged array for more flexibility, but slightly less performance, will improve later
     
     // Constraints
     private const int TILE_COUNT_X = 8;
@@ -21,6 +27,13 @@ public class ChessBoard : MonoBehaviour
     private void Awake()
     {
         GenerateTiles(tileSize,8,8);
+    }
+
+    private void Start()
+    {
+        pieceSprites = new Sprite[2][];
+        pieceSprites[0] = whitePieces;
+        pieceSprites[1] = blackPieces;
     }
 
     private void Update()
@@ -103,6 +116,23 @@ public class ChessBoard : MonoBehaviour
         
         
         return tileObject;
+    }
+    
+    // Piece Generation
+    private void SpawnAllPieces()
+    {
+        
+    }
+
+    private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
+    {
+        ChessPiece cp = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
+        
+        cp.type = type;
+        cp.team = team;
+        cp.GetComponent<SpriteRenderer>().sprite = pieceSprites[team][(int)type - 1];
+        
+        return cp;
     }
     
     // Operations
