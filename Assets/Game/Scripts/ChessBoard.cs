@@ -16,6 +16,7 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private Sprite[][] pieceSprites; // using jagged array for more flexibility, but slightly less performance, will improve later
     
     // Constraints
+    private ChessPiece[,] chessPieces;
     private const int TILE_COUNT_X = 8;
     private const int TILE_COUNT_Y = 8;
     private GameObject[,] tiles;
@@ -26,14 +27,13 @@ public class ChessBoard : MonoBehaviour
     
     private void Awake()
     {
-        GenerateTiles(tileSize,8,8);
-    }
-
-    private void Start()
-    {
         pieceSprites = new Sprite[2][];
         pieceSprites[0] = whitePieces;
         pieceSprites[1] = blackPieces;
+        
+        GenerateTiles(tileSize,8,8);
+
+        SpawnAllPieces();
     }
 
     private void Update()
@@ -121,6 +121,24 @@ public class ChessBoard : MonoBehaviour
     // Piece Generation
     private void SpawnAllPieces()
     {
+        chessPieces = new ChessPiece[TILE_COUNT_X, TILE_COUNT_Y];
+        
+        int whiteTeam = 0, blackTeam = 1;
+        
+        // white team
+        chessPieces[0, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        chessPieces[1, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[3, 0] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
+        chessPieces[4, 0] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
+        chessPieces[5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[6,0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[7,0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        for(int i = 0; i < TILE_COUNT_X; i++){
+            chessPieces[i,1] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
+        }
+        
+        // black team
         
     }
 

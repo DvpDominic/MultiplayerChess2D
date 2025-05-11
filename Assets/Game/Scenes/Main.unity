@@ -201,7 +201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMaterial: {fileID: 2100000, guid: 05fabc0a296d780408a01ff66d23d817, type: 2}
-  tileSize: 0.64
+  tileSize: 1.28
   yOffset: 0.2
   boardCenter: {x: 0, y: 0, z: 0}
   prefabs:
@@ -230,19 +230,19 @@ MonoBehaviour:
   - {fileID: 4482088142611537740, guid: 2a52de5f12c1962408a5cb9bade93abf, type: 3}
   - {fileID: 1889398493732604073, guid: 5f075418e22f5d748ac6e11f672c7876, type: 3}
   whitePieces:
-  - {fileID: 21300000, guid: 753435087bb15d047b7bded133f53e51, type: 3}
-  - {fileID: 21300000, guid: 2da25dc428f7d9541a633ac80877ca2b, type: 3}
-  - {fileID: 21300000, guid: 076c7955ff8073a49b111f887dadcb2c, type: 3}
-  - {fileID: 21300000, guid: 228995179e0e27c498fc53dda6130a39, type: 3}
-  - {fileID: 21300000, guid: a4fc2eaf2968bef45848d82762be5648, type: 3}
-  - {fileID: 21300000, guid: 4d85868557c3488478fae51bf7d2b873, type: 3}
+  - {fileID: -8532004215358912450, guid: 753435087bb15d047b7bded133f53e51, type: 3}
+  - {fileID: 5600290155524006502, guid: 2da25dc428f7d9541a633ac80877ca2b, type: 3}
+  - {fileID: 8777228521865428122, guid: 076c7955ff8073a49b111f887dadcb2c, type: 3}
+  - {fileID: 904179075512932255, guid: 228995179e0e27c498fc53dda6130a39, type: 3}
+  - {fileID: 3909198007848681256, guid: a4fc2eaf2968bef45848d82762be5648, type: 3}
+  - {fileID: -6665079566436363118, guid: 4d85868557c3488478fae51bf7d2b873, type: 3}
   blackPieces:
-  - {fileID: 21300000, guid: c968b877ae29ba640abac5993c12a836, type: 3}
-  - {fileID: 21300000, guid: 00530208fbe2f634c9fc2eb8c30d9712, type: 3}
-  - {fileID: 21300000, guid: 6cec71845b8d83c49ac4a781021be0c2, type: 3}
-  - {fileID: 21300000, guid: 7e96a61c57541804da94bfe353d89a98, type: 3}
-  - {fileID: 21300000, guid: 1fa7335cb5ee0f44482f0dad0357c51e, type: 3}
-  - {fileID: 21300000, guid: 62f8314d219a3484b8d6105caaf7423a, type: 3}
+  - {fileID: -3439709500497429360, guid: c968b877ae29ba640abac5993c12a836, type: 3}
+  - {fileID: 5782662973348025750, guid: 00530208fbe2f634c9fc2eb8c30d9712, type: 3}
+  - {fileID: -5705587971989704657, guid: 6cec71845b8d83c49ac4a781021be0c2, type: 3}
+  - {fileID: -3448466328585167191, guid: 7e96a61c57541804da94bfe353d89a98, type: 3}
+  - {fileID: -7779958110830305896, guid: 1fa7335cb5ee0f44482f0dad0357c51e, type: 3}
+  - {fileID: -1676337426513222117, guid: 62f8314d219a3484b8d6105caaf7423a, type: 3}
 --- !u!1 &1614524467
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +389,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
