@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class ChessBoard : MonoBehaviour
@@ -17,6 +18,7 @@ public class ChessBoard : MonoBehaviour
     
     // Constraints
     private ChessPiece[,] chessPieces;
+    private ChessPiece currentlyDragging;
     private const int TILE_COUNT_X = 8;
     private const int TILE_COUNT_Y = 8;
     private GameObject[,] tiles;
@@ -62,6 +64,31 @@ public class ChessBoard : MonoBehaviour
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+            }
+            
+            // If mouse button is pressed down
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (chessPieces[hitPosition.x, hitPosition.y] != null)
+                {
+                    // Is it our turn?
+                    if (true)
+                    {
+                        currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
+                    }
+                }
+            }
+
+            if (currentlyDragging != null && Input.GetMouseButtonUp(0))
+            {
+                Vector2Int previousPostion = new Vector2Int(currentlyDragging.currentX, currentlyDragging.currentY);
+                
+                bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
+                if (!validMove)
+                {
+                    currentlyDragging.transform.position = GetTileCenter(previousPostion.x, previousPostion.y);
+                    currentlyDragging = null;
+                }
             }
         }
         else
@@ -186,7 +213,7 @@ public class ChessBoard : MonoBehaviour
 
     private Vector3 GetTileCenter(int x, int y)
     {
-        return new Vector3(x * tileSize, y * tileSize, -yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0);
+        return new Vector3(x * tileSize, y * tileSize, yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0);
     }
     
     // Operations
@@ -202,5 +229,27 @@ public class ChessBoard : MonoBehaviour
         }
         
         return -Vector2Int.one;
+    }
+    
+    private bool MoveTo(ChessPiece cp, int x, int y)
+    {
+        Vector2Int previousPostion = new Vector2Int(cp.currentX, cp.currentY);
+        
+        // Checking if there is another piece at target pos
+        if (chessPieces[x, y] != null)
+        {
+            ChessPiece ocp = chessPieces[x, y];
+
+            if (cp.team == ocp.team)
+            {
+                return false;
+            }
+        }
+        
+        chessPieces[x, y] = cp;
+        chessPieces[previousPostion.x, previousPostion.y] = null;
+        PositionSinglePiece(x, y);
+        
+        return true;
     }
 }

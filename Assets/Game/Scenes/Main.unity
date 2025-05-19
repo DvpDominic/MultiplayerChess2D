@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileMaterial: {fileID: 2100000, guid: 05fabc0a296d780408a01ff66d23d817, type: 2}
   tileSize: 1.28
-  yOffset: 0.2
+  yOffset: -0.2
   boardCenter: {x: 0, y: 0, z: 0}
   prefabs:
   - {fileID: 3006556321622827669, guid: 1a807409974c8bf4585b70587a9c8fb9, type: 3}
