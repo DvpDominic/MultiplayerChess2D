@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private float tileSize = 1.0f;
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
+    [SerializeField] private float deathSize = 0.25f;
+    [SerializeField] private float deathSpacing = 0.5f;
 
     [Header("Prefabs && Sprites")] 
     [SerializeField] private GameObject[] prefabs;
@@ -19,6 +22,8 @@ public class ChessBoard : MonoBehaviour
     // Constraints
     private ChessPiece[,] chessPieces;
     private ChessPiece currentlyDragging;
+    private List<ChessPiece> deadWhites = new List<ChessPiece>();
+    private List<ChessPiece> deadBlacks = new List<ChessPiece>();
     private const int TILE_COUNT_X = 8;
     private const int TILE_COUNT_Y = 8;
     private GameObject[,] tiles;
@@ -86,7 +91,11 @@ public class ChessBoard : MonoBehaviour
                 bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
                 if (!validMove)
                 {
-                    currentlyDragging.transform.position = GetTileCenter(previousPostion.x, previousPostion.y);
+                    currentlyDragging.SetPosition(GetTileCenter(previousPostion.x, previousPostion.y),false);
+                    currentlyDragging = null;
+                }
+                else
+                {
                     currentlyDragging = null;
                 }
             }
@@ -97,6 +106,13 @@ public class ChessBoard : MonoBehaviour
             {
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
                 currentHover = -Vector2Int.one;
+            }
+
+            if (currentlyDragging && Input.GetMouseButtonUp(0))
+            {
+                currentlyDragging.SetPosition(GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
+                currentlyDragging = null;
+                
             }
         }
     }
@@ -208,7 +224,7 @@ public class ChessBoard : MonoBehaviour
     {
         chessPieces[x, y].currentX = x;
         chessPieces[x, y].currentY = y;
-        chessPieces[x, y].transform.position = GetTileCenter(x, y);
+        chessPieces[x, y].SetPosition(GetTileCenter(x, y), force);
     }
 
     private Vector3 GetTileCenter(int x, int y)
@@ -239,11 +255,25 @@ public class ChessBoard : MonoBehaviour
         if (chessPieces[x, y] != null)
         {
             ChessPiece ocp = chessPieces[x, y];
-
+            
+            // if same team
             if (cp.team == ocp.team)
             {
                 return false;
             }
+            
+            // If enemy team
+            if (ocp.team == 0)
+            {
+                deadWhites.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                ocp.SetPosition(new Vector3(8 * tileSize, -1 * tileSize, yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0) + (Vector3.up * (deathSpacing * deadWhites.Count)));
+            }
+            else
+            {
+                
+            }
+            
         }
         
         chessPieces[x, y] = cp;
