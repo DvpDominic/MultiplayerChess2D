@@ -12,7 +12,8 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
     [SerializeField] private float deathSize = 0.25f;
     [SerializeField] private float deathSpacing = 0.5f;
-
+    [SerializeField] private float dragOffset = 1f;
+    
     [Header("Prefabs && Sprites")] 
     [SerializeField] private GameObject[] prefabs;
     [SerializeField] private Sprite[] whitePieces;
@@ -114,6 +115,14 @@ public class ChessBoard : MonoBehaviour
                 currentlyDragging = null;
                 
             }
+        }
+        
+        // If dragging a piece
+        if (currentlyDragging)
+        { 
+           Vector3 mouseWorldPos = currentCamera.ScreenToWorldPoint(Input.mousePosition);
+           mouseWorldPos.z = 0f;
+           currentlyDragging.SetPosition(mouseWorldPos);
         }
     }
 
@@ -271,7 +280,9 @@ public class ChessBoard : MonoBehaviour
             }
             else
             {
-                
+                deadBlacks.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                ocp.SetPosition(new Vector3(-1 * tileSize, 8 * tileSize, yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0) + (Vector3.down * (deathSpacing * deadBlacks.Count)));
             }
             
         }
