@@ -48,10 +48,10 @@ public class ChessPiece : MonoBehaviour
         }   
     }
 
-    private List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
+    public List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
         List<Vector2Int> r = new List<Vector2Int>();
-        
+        r.Add(new Vector2Int(3,3));
         return r;
     }
 }

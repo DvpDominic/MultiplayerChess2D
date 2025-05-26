@@ -23,6 +23,7 @@ public class ChessBoard : MonoBehaviour
     // Constraints
     private ChessPiece[,] chessPieces;
     private ChessPiece currentlyDragging;
+    private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private List<ChessPiece> deadWhites = new List<ChessPiece>();
     private List<ChessPiece> deadBlacks = new List<ChessPiece>();
     private const int TILE_COUNT_X = 8;
@@ -54,7 +55,7 @@ public class ChessBoard : MonoBehaviour
         }
 
         Vector2 mousePos = currentCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100, LayerMask.GetMask("Tile","Hover"));
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100, LayerMask.GetMask("Tile","Hover", "Highlight"));
         if (hit.collider != null)
         {
             // Get indexes of the tile hit
@@ -81,6 +82,10 @@ public class ChessBoard : MonoBehaviour
                     if (true)
                     {
                         currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
+                        
+                        // Get a list of where I can move to, highlight the tiles as well
+                        availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+                        HighlightTiles();
                     }
                 }
             }
@@ -99,6 +104,7 @@ public class ChessBoard : MonoBehaviour
                 {
                     currentlyDragging = null;
                 }
+                RemoveHighlightTiles();
             }
         }
         else
@@ -113,7 +119,7 @@ public class ChessBoard : MonoBehaviour
             {
                 currentlyDragging.SetPosition(GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
                 currentlyDragging = null;
-                
+                RemoveHighlightTiles();
             }
         }
         
@@ -241,7 +247,39 @@ public class ChessBoard : MonoBehaviour
         return new Vector3(x * tileSize, y * tileSize, yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0);
     }
     
+    // Highlight tiles that we can move to
+    private void HighlightTiles()
+    {
+        for (int i = 0; i < availableMoves.Count; i++)
+        {
+            tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer("Highlight");
+        }
+    }
+    
+    private void RemoveHighlightTiles()
+    {
+        for (int i = 0; i < availableMoves.Count; i++)
+        {
+            tiles[availableMoves[i].x, availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
+        }
+        
+        availableMoves.Clear();
+    }
+    
     // Operations
+
+    private bool ContaintsValidMove(ref List<Vector2Int> moves, Vector2 pos)
+    {
+        for (int i = 0; i < moves.Count; i++)
+        {
+            if (moves[i].x == pos.x && moves[i].y == pos.y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     private Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
