@@ -68,7 +68,7 @@ public class ChessBoard : MonoBehaviour
             }
             if (currentHover != hitPosition)
             {
-                tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+                tiles[currentHover.x, currentHover.y].layer = (ContaintsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer("Tile");
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
             }
@@ -111,7 +111,7 @@ public class ChessBoard : MonoBehaviour
         {
             if (currentHover != -Vector2Int.one)
             {
-                tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+                tiles[currentHover.x, currentHover.y].layer = (ContaintsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Highlight") : LayerMask.NameToLayer("Tile");
                 currentHover = -Vector2Int.one;
             }
 
@@ -296,6 +296,9 @@ public class ChessBoard : MonoBehaviour
     
     private bool MoveTo(ChessPiece cp, int x, int y)
     {
+        if(!ContaintsValidMove(ref availableMoves, new Vector2Int(x,y) ))
+            return false;
+        
         Vector2Int previousPostion = new Vector2Int(cp.currentX, cp.currentY);
         
         // Checking if there is another piece at target pos
