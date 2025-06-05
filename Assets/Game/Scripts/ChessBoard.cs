@@ -20,7 +20,7 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private Sprite[] blackPieces;
     [SerializeField] private Sprite[][] pieceSprites; // using jagged array for more flexibility, but slightly less performance, will improve later
     
-    // Constraints
+    // Logic
     private ChessPiece[,] chessPieces;
     private ChessPiece currentlyDragging;
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
@@ -33,9 +33,12 @@ public class ChessBoard : MonoBehaviour
     private Camera currentCamera;
     private Vector2Int currentHover;
     private Vector3 bounds;
+    private bool isWhiteTurn;
     
     private void Awake()
     {
+        isWhiteTurn = true;
+        
         pieceSprites = new Sprite[2][];
         pieceSprites[0] = whitePieces;
         pieceSprites[1] = blackPieces;
@@ -79,7 +82,7 @@ public class ChessBoard : MonoBehaviour
                 if (chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
                     // Is it our turn?
-                    if (true)
+                    if ((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn) )
                     {
                         currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
                         
@@ -315,12 +318,18 @@ public class ChessBoard : MonoBehaviour
             // If enemy team
             if (ocp.team == 0)
             {
+                if (ocp.type == ChessPieceType.King)
+                    CheckMate(1);
+                
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 ocp.SetPosition(new Vector3(8 * tileSize, -1 * tileSize, yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0) + (Vector3.up * (deathSpacing * deadWhites.Count)));
             }
             else
             {
+                if (ocp.type == ChessPieceType.King)
+                    CheckMate(0);
+                
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 ocp.SetPosition(new Vector3(-1 * tileSize, 8 * tileSize, yOffset) - bounds + new Vector3(tileSize/2, tileSize/2, 0) + (Vector3.down * (deathSpacing * deadBlacks.Count)));
@@ -331,7 +340,30 @@ public class ChessBoard : MonoBehaviour
         chessPieces[x, y] = cp;
         chessPieces[previousPostion.x, previousPostion.y] = null;
         PositionSinglePiece(x, y);
+
+        isWhiteTurn = !isWhiteTurn;
         
         return true;
     }
+
+    private void CheckMate(int team)
+    {
+        DisplayVictory(team);
+    }
+
+    private void DisplayVictory(int winningTeam)
+    {
+        
+    }
+
+    public void OnResetButton()
+    {
+        
+    }
+
+    public void OnExitButton()
+    {
+        
+    }
+    
 }
