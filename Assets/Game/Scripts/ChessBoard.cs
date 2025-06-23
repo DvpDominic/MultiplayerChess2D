@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using TMPro;
 
 public class ChessBoard : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private float deathSize = 0.25f;
     [SerializeField] private float deathSpacing = 0.5f;
     [SerializeField] private float dragOffset = 1f;
+    [SerializeField] private GameObject victoryScreen;
+    [SerializeField] private TextMeshProUGUI victoryText;
     
     [Header("Prefabs && Sprites")] 
     [SerializeField] private GameObject[] prefabs;
@@ -353,17 +356,55 @@ public class ChessBoard : MonoBehaviour
 
     private void DisplayVictory(int winningTeam)
     {
-        
+        victoryScreen.SetActive(true);
+        if (winningTeam == 0)
+            victoryText.text = "White team wins";
+        else
+            victoryText.text = "Black team wins";
+        victoryText.gameObject.SetActive(true);
     }
 
     public void OnResetButton()
     {
+        // UI changes
+        victoryText.text = "";
+        victoryText.gameObject.SetActive(false);
+        victoryScreen.SetActive(false);
         
+        // Fields reset
+        currentlyDragging = null;
+        availableMoves = new List<Vector2Int>();
+        
+        // Cleaning up objects
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    Destroy(chessPieces[x, y].gameObject);
+                
+                chessPieces[x, y] = null;
+            }
+        }
+
+        for (int i = 0; i < deadWhites.Count; i++)
+            Destroy(deadWhites[i].gameObject);
+
+        for (int i = 0; i < deadBlacks.Count; i++)
+            Destroy(deadBlacks[i].gameObject);
+        
+        deadWhites.Clear();
+        deadBlacks.Clear();
+        
+        SpawnAllPieces();
+        PositionAllPieces();
+        isWhiteTurn = true;
+
     }
 
     public void OnExitButton()
     {
-        
+        Application.Quit();
     }
     
 }
